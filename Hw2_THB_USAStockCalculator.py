@@ -8,7 +8,7 @@ while True:
     stock_symbol = input("Input stock symbol : ")
     money_thb = float(input("Input amount of money(THB) : "))
 
-    key = "c14uok748v6rofqft370"
+    key = "c1go7qf48v6v8dn0ddeg"
     main_api_stock = 'https://finnhub.io/api/v1/quote?'
     url_stock = main_api_stock + urllib.parse.urlencode({"token":key, "symbol":stock_symbol})
     res_stock = requests.get(url_stock)

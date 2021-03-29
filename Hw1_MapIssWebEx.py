@@ -1,7 +1,7 @@
 import urllib.parse
 import requests
 import json
-
+from datetime import datetime
 
 while True:
     location = input("Input location : ")
@@ -19,24 +19,18 @@ while True:
         res = requests.get(url)
         result = res.json()
 
-        text1, text2 = '', ''
-        for i in result["response"]:
-            text1 += str(i["risetime"]) + " "
-            text2 += str(i["duration"]) + " "
-
+        # print(result["response"][0]["risetime"])
+        # print(result["response"][0]["duration"])
         message1 = "Latitude and Longtitude are " + str(lat_lng["lat"]) + " and " + str(lat_lng["lng"])
-        message2 = "Amount pass : " + str(result["request"]["passes"]) + "\n" + "Rise time are " + text1 + "\n" + "Duration are " + text2
-        print(message1)
-        print(message2)
-
-        access_token = "YjNlZDk0Y2EtNTMxYy00ZTJmLWJiYTktMTkyNjc3OGMwMTcyZTEyODE1Y2UtZjU3_P0A1_408b8cf5-9f52-48d9-be13-2cd9891ab13f"
+        message_send = message1 + "\n" + "ISS will pass " + datetime.fromtimestamp(result["response"][0]["risetime"]).strftime("%A, %B %d, %Y %I:%M:%S")
+        access_token = "ZTc2MzVmYTctMzc4MC00ZjdkLTg4MGQtNWExNzQ0ZWYyZmVkYTY1MTBkYWQtZGFi_P0A1_408b8cf5-9f52-48d9-be13-2cd9891ab13f"
         room_id = "Y2lzY29zcGFyazovL3VzL1JPT00vNjA5Nzk5NDAtNTU3My0xMWViLWEzNzUtY2JkMGE4ZjAxYTA3"
-        url = 'https://webexapis.com/v1/messages'
-        message = message1 + "\n" + message2
         url = 'https://webexapis.com/v1/messages'
         headers = {
         'Authorization': 'Bearer {}'.format(access_token),
         'Content-Type': 'application/json'
         }
-        params = {'roomId': room_id, 'markdown': message}
+        params = {'roomId': room_id, 'markdown': message_send}
         res = requests.post(url, headers=headers, json=params)
+    else:
+        break
